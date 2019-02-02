@@ -14,7 +14,7 @@ func main() {
 	postgres.InitDbConnect()
 	defer postgres.PostgresConn.Close()
 
-	r.HandleFunc("/user", user.GetUsers).Methods("GET")
+	r.HandleFunc("/user", user.GetUser).Methods("GET")
 	r.HandleFunc("/user", user.PostUser).Methods("POST")
 
 	http.ListenAndServe(":8000", r)

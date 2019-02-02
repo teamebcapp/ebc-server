@@ -13,9 +13,11 @@ type User struct {
 }
 
 type UserParam struct {
-	data   User
-	limit  int
-	offset int
+	// User
+	UserId   string `schema:"user_id"`
+	Password string `schema:"password"`
+	Limit    int
+	Offset   int
 }
 
 func (User) TableName() string {
