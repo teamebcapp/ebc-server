@@ -36,7 +36,7 @@ CREATE TABLE info.business_card(
 		fax VARCHAR(32),
 		address VARCHAR(512),
 		email VARCHAR(256),
-		priority INT NOT NULL,
+		priority INT DEFAULT 9 NOT NULL,
   CONSTRAINT IDX_business_card_1 UNIQUE (bc_seq)
 );
 
