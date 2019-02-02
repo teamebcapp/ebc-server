@@ -72,13 +72,13 @@ func PutUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 
-	var addUser User
-	err := json.NewDecoder(r.Body).Decode(&addUser)
+	var modifyUser User
+	err := json.NewDecoder(r.Body).Decode(&modifyUser)
 	if err != nil {
 		log.Fatal(err)
 		http.Error(w, err.Error(), 500)
 	}
-	postgres.PostgresConn.Save(&addUser)
+	postgres.PostgresConn.Save(&modifyUser)
 	//postgres.PostgresConn.Commit()
 	result, err := utils.ObjectToJsonByte(common.BaseResult{"success", "200", 1})
 	if err != nil {

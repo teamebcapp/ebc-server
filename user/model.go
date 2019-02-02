@@ -14,8 +14,8 @@ type User struct {
 
 type UserParam struct {
 	// User
-	UserId   string `schema:"user_id"`
-	Password string `schema:"password"`
+	UserId   string
+	Password string
 	Limit    int
 	Offset   int
 }
