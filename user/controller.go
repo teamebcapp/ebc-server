@@ -33,7 +33,19 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), 500)
 	}
 	w.Write(result)
+}
 
+func GetUsers(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+	resultUser := []User{}
+	postgres.PostgresConn.Find(&resultUser)
+	result, err := utils.ObjectToJsonByte(resultUser)
+	if err != nil {
+		log.Fatal(err)
+		http.Error(w, err.Error(), 500)
+	}
+	w.Write(result)
 }
 
 func PostUser(w http.ResponseWriter, r *http.Request) {
@@ -47,6 +59,26 @@ func PostUser(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), 500)
 	}
 	postgres.PostgresConn.Create(&addUser)
+	//postgres.PostgresConn.Commit()
+	result, err := utils.ObjectToJsonByte(common.BaseResult{"success", "200", 1})
+	if err != nil {
+		log.Fatal(err)
+		http.Error(w, err.Error(), 500)
+	}
+	w.Write(result)
+}
+
+func PutUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+
+	var addUser User
+	err := json.NewDecoder(r.Body).Decode(&addUser)
+	if err != nil {
+		log.Fatal(err)
+		http.Error(w, err.Error(), 500)
+	}
+	postgres.PostgresConn.Save(&addUser)
 	//postgres.PostgresConn.Commit()
 	result, err := utils.ObjectToJsonByte(common.BaseResult{"success", "200", 1})
 	if err != nil {

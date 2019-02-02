@@ -34,7 +34,7 @@ CREATE TABLE info.business_card(
 		phone VARCHAR(16),
 		tel VARCHAR(16),
 		fax VARCHAR(32),
-		adress VARCHAR(512),
+		address VARCHAR(512),
 		email VARCHAR(256),
 		priority INT NOT NULL,
   CONSTRAINT IDX_business_card_1 UNIQUE (bc_seq)
