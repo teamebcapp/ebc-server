@@ -26,7 +26,7 @@ CREATE TABLE info.user(
 /**********************************/
 CREATE TABLE info.business_card(
 		bc_seq INT NOT NULL PRIMARY KEY default nextval('info.business_card_bc_seq_seq'::regclass),
-		user_Id VARCHAR(256) NOT NULL REFERENCES info.user (user_id),
+		user_id VARCHAR(256) NOT NULL REFERENCES info.user (user_id),
 		name VARCHAR(128),
 		company VARCHAR(128),
 		depart VARCHAR(256),
