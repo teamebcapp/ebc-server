@@ -58,6 +58,7 @@ CREATE TABLE info.owner_bc(
 		address VARCHAR(512),
 		email VARCHAR(256),
   FOREIGN KEY (owner_user_id) REFERENCES info.user (user_id),
+  FOREIGN KEY (owner_bc_seq) REFERENCES info.business_card (bc_seq),
   CONSTRAINT IDX_owner_bc_1 UNIQUE (owner_seq)
 );
 
@@ -66,3 +67,4 @@ CREATE INDEX IDX_user_2 ON info.user (user_id);
 CREATE INDEX IDX_business_card_2 ON info.business_card (user_id);
 
 CREATE INDEX IDX_owner_bc_2 ON info.owner_bc (owner_user_id);
+CREATE INDEX IDX_owner_bc_3 ON info.owner_bc (owner_bc_seq);
