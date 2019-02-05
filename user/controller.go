@@ -27,6 +27,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	var resultUser User
 	// postgres.PostgresConn.Find(&resultUser)
 	postgres.PostgresConn.Where("user_id = ? AND password = ?", userParam.UserId, userParam.Password).First(&resultUser)
+	resultUser.Password = ""
 	result, err := utils.ObjectToJsonByte(resultUser)
 	if err != nil {
 		log.Println(err)
