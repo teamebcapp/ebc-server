@@ -84,3 +84,23 @@ func PostOwnerBc(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Write(result)
 }
+
+func PutOwnerBc(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+
+	var modifyOwnerBc OwnerBc
+	err := json.NewDecoder(r.Body).Decode(&modifyOwnerBc)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, err.Error(), 500)
+	}
+	postgres.PostgresConn.Save(&modifyOwnerBc)
+	//postgres.PostgresConn.Commit()
+	result, err := utils.ObjectToJsonByte(common.BaseResult{"success", "200", 1})
+	if err != nil {
+		log.Println(err)
+		http.Error(w, err.Error(), 500)
+	}
+	w.Write(result)
+}

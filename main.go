@@ -30,6 +30,7 @@ func main() {
 	r.HandleFunc("/owner/bc", ownerbc.GetOwnerBc).Methods("GET")
 	r.HandleFunc("/owner/bcs", ownerbc.GetOwnerBcs).Methods("GET")
 	r.HandleFunc("/owner/bc", ownerbc.PostOwnerBc).Methods("POST")
+	r.HandleFunc("/owner/bc", ownerbc.PutOwnerBc).Methods("PUT")
 
 	http.ListenAndServe(":8000", r)
 }
