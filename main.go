@@ -21,6 +21,7 @@ func main() {
 	r.HandleFunc("/users", user.GetUsers).Methods("GET")
 	r.HandleFunc("/user", user.PostUser).Methods("POST")
 	r.HandleFunc("/user", user.PutUser).Methods("PUT")
+	r.HandleFunc("/user/duplicate", user.GetUserDuplicate).Methods("GET")
 	// BC
 	r.HandleFunc("/bc", card.GetBusinessCard).Methods("GET")
 	r.HandleFunc("/bcs", card.GetBusinessCards).Methods("GET")

@@ -88,3 +88,31 @@ func PutUser(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Write(result)
 }
+
+func GetUserDuplicate(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+	var userParam UserParam
+	// err := json.NewDecoder(r.Form).Decode(&userParam)
+	err := decoder.Decode(&userParam, r.URL.Query())
+	if err != nil {
+		log.Println(err)
+		http.Error(w, err.Error(), 500)
+	}
+	// resultUser := []User{}
+	var resultUser User
+	// postgres.PostgresConn.Find(&resultUser)
+	postgres.PostgresConn.Where("user_id = ?", userParam.UserId).First(&resultUser)
+
+	duplicate := common.BaseResult{"no duplicate", "200", 0}
+	if resultUser.UserSeq != 0 {
+		duplicate.ResultMessage = "duplicate"
+		duplicate.ResultCount = 1
+	}
+	result, err := utils.ObjectToJsonByte(duplicate)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, err.Error(), 500)
+	}
+	w.Write(result)
+}
