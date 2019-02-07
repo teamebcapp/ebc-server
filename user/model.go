@@ -20,6 +20,13 @@ type UserParam struct {
 	Offset   int
 }
 
+type UserPassword struct {
+	UserSeq      int
+	UserId       string
+	Password     string
+	PrevPassword string
+}
+
 func (User) TableName() string {
 	return "info.user"
 }
