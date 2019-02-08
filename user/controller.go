@@ -5,8 +5,12 @@ import (
 	postgres "ebc-server/common/db"
 	"ebc-server/common/utils"
 	"encoding/json"
+	"io"
 	"log"
+	"mime/multipart"
 	"net/http"
+	"os"
+	"strings"
 
 	"github.com/gorilla/schema"
 )
@@ -149,4 +153,49 @@ func PutUserPassword(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Write(result)
 
+}
+
+func UserFileUpload(w http.ResponseWriter, r *http.Request) {
+	var file multipart.File
+	var fileHeader *multipart.FileHeader
+	var err error
+	var uploadedFileName string
+	// POST된 파일 데이터를 얻는다
+
+	userId := r.FormValue("userid")
+	log.Println("User ID :", userId)
+	file, fileHeader, err = r.FormFile("image")
+	if err != nil {
+		log.Println(err)
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	uploadedFileName = fileHeader.Filename
+	fileFormat := strings.Split(uploadedFileName, ".")
+	if len(fileFormat) < 1 {
+		log.Println("file format err")
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	// 서버 측에 저장하기 위해 빈 파일을 만든다
+	var saveImage *os.File
+	saveImage, err = os.Create("./" + userId + "." + fileFormat[1])
+	if err != nil {
+		log.Println(err)
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	defer saveImage.Close()
+	defer file.Close()
+	size, err := io.Copy(saveImage, file)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, err.Error(), 500)
+		return
+		//os.Exit(1)
+	}
+	log.Println("쓴 Byte 수=>", size)
+
+	result, _ := utils.ObjectToJsonByte(common.BaseResult{"success", "200", int(size)})
+	w.Write(result)
 }
