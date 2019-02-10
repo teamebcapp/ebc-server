@@ -1,6 +1,7 @@
 package ownerbc
 
 import (
+	"ebc-server/card"
 	"ebc-server/common"
 	postgres "ebc-server/common/db"
 	"ebc-server/common/utils"
@@ -69,12 +70,22 @@ func PostOwnerBc(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 
-	var addOwnerBc OwnerBc
-	err := json.NewDecoder(r.Body).Decode(&addOwnerBc)
+	var bcParam OwnerBcParam
+	err := json.NewDecoder(r.Body).Decode(&bcParam)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, err.Error(), 500)
 	}
+	var bc card.BusinessCard
+	postgres.PostgresConn.First(&bc, bcParam.OwnerBcSeq)
+	addOwnerBc := OwnerBc{}
+
+	utils.BeanCopy(&bc, &addOwnerBc)
+
+	addOwnerBc.OwnerUserId = bcParam.OwnerUserId
+	addOwnerBc.OwnerBcSeq = bcParam.OwnerBcSeq
+
+	utils.PrintBeans(&addOwnerBc)
 	postgres.PostgresConn.Create(&addOwnerBc)
 	//postgres.PostgresConn.Commit()
 	result, err := utils.ObjectToJsonByte(common.BaseResult{"success", "200", 1})
