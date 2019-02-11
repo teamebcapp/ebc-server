@@ -23,7 +23,7 @@ func main() {
 	r.HandleFunc("/user", user.PutUser).Methods("PUT")
 	r.HandleFunc("/user/duplicate", user.GetUserDuplicate).Methods("GET")
 	r.HandleFunc("/user/password", user.PutUserPassword).Methods("PUT")
-	r.HandleFunc("/user/profile", user.UserFileUpload).Methods("POST")
+	r.HandleFunc("/user/profile", user.PostUserFileUpload).Methods("POST")
 	// BC
 	r.HandleFunc("/bc", card.GetBusinessCard).Methods("GET")
 	r.HandleFunc("/bcs", card.GetBusinessCards).Methods("GET")

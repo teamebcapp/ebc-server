@@ -155,7 +155,7 @@ func PutUserPassword(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func UserFileUpload(w http.ResponseWriter, r *http.Request) {
+func PostUserFileUpload(w http.ResponseWriter, r *http.Request) {
 	var file multipart.File
 	var fileHeader *multipart.FileHeader
 	var err error
