@@ -30,6 +30,29 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	// resultUser := []User{}
 	var resultUser User
 	// postgres.PostgresConn.Find(&resultUser)
+	postgres.PostgresConn.Where("user_id = ?", userParam.UserId).First(&resultUser)
+	resultUser.Password = ""
+	result, err := utils.ObjectToJsonByte(resultUser)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, err.Error(), 500)
+	}
+	w.Write(result)
+}
+
+func Login(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+	var userParam UserParam
+	// err := json.NewDecoder(r.Form).Decode(&userParam)
+	err := decoder.Decode(&userParam, r.URL.Query())
+	if err != nil {
+		log.Println(err)
+		http.Error(w, err.Error(), 500)
+	}
+	// resultUser := []User{}
+	var resultUser User
+	// postgres.PostgresConn.Find(&resultUser)
 	postgres.PostgresConn.Where("user_id = ? AND password = ?", userParam.UserId, userParam.Password).First(&resultUser)
 	resultUser.Password = ""
 	result, err := utils.ObjectToJsonByte(resultUser)

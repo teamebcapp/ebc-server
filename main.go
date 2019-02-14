@@ -18,6 +18,8 @@ func main() {
 	defer postgres.PostgresConn.Close()
 
 	//setAop()
+	// login
+	r.HandleFunc("/login", user.Login).Methods("GET")
 	// User
 	r.HandleFunc("/user", interceptor.SetMethod(user.GetUser).Execute).Methods("GET")
 	r.HandleFunc("/users", interceptor.SetMethod(user.GetUsers).Execute).Methods("GET")
