@@ -5,6 +5,15 @@ CREATE SEQUENCE info.user_user_seq_seq;
 CREATE SEQUENCE info.business_card_bc_seq_seq;
 
 CREATE SEQUENCE info.owner_bc_owner_seq_seq;
+
+
+CREATE TABLE auth_token(
+		id VARCHAR(256) NOT NULL PRIMARY KEY,
+		grant_type VARCHAR(512),
+		access_token VARCHAR(256),
+		refresh_token VARCHAR(256)
+);
+
 /**********************************/
 /* Table Name: info.user */
 /**********************************/
