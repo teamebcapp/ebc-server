@@ -1,6 +1,7 @@
 package user
 
 import (
+	"ebc-server/auth"
 	"ebc-server/common"
 	postgres "ebc-server/common/db"
 	"ebc-server/common/utils"
@@ -60,6 +61,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		http.Error(w, err.Error(), 500)
 	}
+	w.Header().Add("access_token", auth.CreateToken(userParam.UserId, userParam.Password, r.URL.Path))
 	w.Write(result)
 }
 
