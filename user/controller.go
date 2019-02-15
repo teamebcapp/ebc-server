@@ -40,6 +40,23 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Write(result)
 }
+func InvalidToken(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+	isValid, message := auth.ValidToken(r.Header.Get("access_token"))
+	baseResult := common.BaseResult{message, "200", 1}
+	if isValid == false {
+		baseResult.ResultCount = 0
+		baseResult.ResultCode = "500"
+		baseResult.ResultMessage = message
+	}
+	result, err := utils.ObjectToJsonByte(baseResult)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, err.Error(), 500)
+	}
+	w.Write(result)
+}
 
 func Login(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")

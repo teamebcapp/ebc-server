@@ -19,6 +19,7 @@ func main() {
 
 	//setAop()
 	// login
+	r.HandleFunc("/token/valid", user.InvalidToken).Methods("GET")
 	r.HandleFunc("/login", user.Login).Methods("GET")
 	// User
 	r.HandleFunc("/user", interceptor.SetMethod(user.GetUser).Execute).Methods("GET")
