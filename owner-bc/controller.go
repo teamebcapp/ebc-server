@@ -88,7 +88,18 @@ func PostOwnerBc(w http.ResponseWriter, r *http.Request) {
 	utils.PrintBeans(&addOwnerBc)
 	postgres.PostgresConn.Create(&addOwnerBc)
 	//postgres.PostgresConn.Commit()
+
+	mybc := card.BusinessCard{}
+	postgres.PostgresConn.Find(&mybc, bcParam.BcSeq)
+	addMyOwnerBc := OwnerBc{}
+	utils.BeanCopy(&mybc, &addMyOwnerBc)
+	addMyOwnerBc.OwnerBcSeq = mybc.BcSeq
+	addMyOwnerBc.OwnerUserId = mybc.UserId
+
+	postgres.PostgresConn.Create(&addMyOwnerBc)
+
 	result, err := utils.ObjectToJsonByte(common.BaseResult{"success", "200", 1})
+
 	if err != nil {
 		log.Println(err)
 		http.Error(w, err.Error(), 500)

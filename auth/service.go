@@ -49,7 +49,9 @@ func ValidToken(access_token string, resultAuth *Auth) (bool, string) {
 	postgres.PostgresConn.Where("access_token = ?", access_token).Find(&token)
 
 	if token.Id != "" {
-		resultAuth.Id = token.Id
+		if resultAuth != nil {
+			resultAuth.Id = token.Id
+		}
 		return true, "success"
 	}
 	return false, "invalid token"

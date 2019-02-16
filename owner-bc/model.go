@@ -22,6 +22,7 @@ type OwnerBcParam struct {
 	OwnerSeq    int
 	OwnerBcSeq  int
 	OwnerUserId string
+	BcSeq       int
 	Limit       int
 	Offset      int
 }
