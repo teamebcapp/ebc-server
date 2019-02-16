@@ -43,12 +43,18 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 func InvalidToken(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "application/json")
 	w.Header().Add("Access-Control-Allow-Origin", "*")
-	isValid, message := auth.ValidToken(r.Header.Get("access_token"))
+
+	restulAuth := new(auth.Auth)
+	isValid, message := auth.ValidToken(r.Header.Get("access_token"), restulAuth)
 	baseResult := common.BaseResult{message, "200", 1}
 	if isValid == false {
 		baseResult.ResultCount = 0
 		baseResult.ResultCode = "500"
 		baseResult.ResultMessage = message
+	} else {
+		if restulAuth != nil {
+			w.Header().Add("user_id", restulAuth.Id)
+		}
 	}
 	result, err := utils.ObjectToJsonByte(baseResult)
 	if err != nil {

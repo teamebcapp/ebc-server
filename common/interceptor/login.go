@@ -25,7 +25,7 @@ func (l *Login) Execute(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "access_token null", 403)
 		return
 	} else {
-		if isValid, err := auth.ValidToken(token); isValid == false {
+		if isValid, err := auth.ValidToken(token, nil); isValid == false {
 			log.Println(err)
 			http.Error(w, err, 403)
 			return

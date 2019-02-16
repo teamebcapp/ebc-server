@@ -44,11 +44,12 @@ func ValidTokenUser(userId, access_token string) (bool, string) {
 	return false, "not created token"
 }
 
-func ValidToken(access_token string) (bool, string) {
+func ValidToken(access_token string, resultAuth *Auth) (bool, string) {
 	token := Auth{}
 	postgres.PostgresConn.Where("access_token = ?", access_token).Find(&token)
 
 	if token.Id != "" {
+		resultAuth.Id = token.Id
 		return true, "success"
 	}
 	return false, "invalid token"
