@@ -39,6 +39,7 @@ func main() {
 	r.HandleFunc("/owner/bcs", interceptor.SetMethod(ownerbc.GetOwnerBcs).Execute).Methods("GET")
 	r.HandleFunc("/owner/bc", interceptor.SetMethod(ownerbc.PostOwnerBc).Execute).Methods("POST")
 	r.HandleFunc("/owner/bc", interceptor.SetMethod(ownerbc.PutOwnerBc).Execute).Methods("PUT")
+	r.HandleFunc("/owner/bc", interceptor.SetMethod(ownerbc.DeleteOwnerBc).Execute).Methods("DELETE")
 
 	http.ListenAndServe(":8000", r)
 }
