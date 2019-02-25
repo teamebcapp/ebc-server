@@ -89,3 +89,23 @@ func PutBusinessCard(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Write(result)
 }
+
+func DeleteBusinessCard(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+
+	var deleteBc BusinessCard
+	err := json.NewDecoder(r.Body).Decode(&deleteBc)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, err.Error(), 500)
+	}
+	postgres.PostgresConn.Where("bc_seq = ?", deleteBc.BcSeq).Delete(BusinessCard{})
+	//postgres.PostgresConn.Commit()
+	result, err := utils.ObjectToJsonByte(common.BaseResult{"success", "200", 1})
+	if err != nil {
+		log.Println(err)
+		http.Error(w, err.Error(), 500)
+	}
+	w.Write(result)
+}

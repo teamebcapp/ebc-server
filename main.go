@@ -34,6 +34,7 @@ func main() {
 	r.HandleFunc("/bcs", interceptor.SetMethod(card.GetBusinessCards).Execute).Methods("GET")
 	r.HandleFunc("/bc", interceptor.SetMethod(card.PostBusinessCard).Execute).Methods("POST")
 	r.HandleFunc("/bc", interceptor.SetMethod(card.PutBusinessCard).Execute).Methods("PUT")
+	r.HandleFunc("/bc", interceptor.SetMethod(card.DeleteBusinessCard).Execute).Methods("DELETE")
 	// owner_bc
 	r.HandleFunc("/owner/bc", interceptor.SetMethod(ownerbc.GetOwnerBc).Execute).Methods("GET")
 	r.HandleFunc("/owner/bcs", interceptor.SetMethod(ownerbc.GetOwnerBcs).Execute).Methods("GET")
