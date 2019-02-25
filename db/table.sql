@@ -77,3 +77,6 @@ CREATE INDEX IDX_business_card_2 ON info.business_card (user_id);
 
 CREATE INDEX IDX_owner_bc_2 ON info.owner_bc (owner_user_id);
 CREATE INDEX IDX_owner_bc_3 ON info.owner_bc (owner_bc_seq);
+
+-- delete문제로 fk삭제
+ALTER TABLE info.owner_bc DROP CONSTRAINT owner_bc_owner_bc_seq_fkey;
